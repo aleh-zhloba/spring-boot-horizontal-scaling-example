@@ -1,0 +1,30 @@
+server.port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hopsify
+    username: postgres
+    password: postgres
+  sql:
+    init.mode: "always"
+  jpa:
+    open-in-view: false
+  mail:
+    username: greenmail
+    password: greenmail
+    host: localhost
+    port: 3025
+    protocol: smtp
+  messages:
+    encoding: UTF-8
+    locale: en
+
+tasks:
+  subscription.newsletter:
+    delay: "PT24H"
+
+logging:
+  level:
+    io.github.azhloba.postgresql.messaging.eventbus: DEBUG
+    org.springframework.web.socket: DEBUG
+    org.springframework.messaging.simp: DEBUG
