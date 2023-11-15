@@ -1,7 +1,7 @@
 package app.hopsify.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.github.azhloba.postgresql.messaging.eventbus.PostgresNotificationEventBus
+import io.github.azhloba.postgresql.messaging.eventbus.PostgresEventBus
 import io.github.azhloba.postgresql.messaging.spring.PostgresMessagingTemplate
 import io.github.azhloba.postgresql.messaging.spring.converter.JacksonNotificationMessageConverter
 import org.springframework.context.annotation.Bean
@@ -12,7 +12,7 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter
 class MessagingConfig {
     @Bean
     fun postgresMessagingTemplate(
-        eventBus: PostgresNotificationEventBus,
+        eventBus: PostgresEventBus,
         objectMapper: ObjectMapper
     ): PostgresMessagingTemplate {
         return PostgresMessagingTemplate(eventBus).apply {
