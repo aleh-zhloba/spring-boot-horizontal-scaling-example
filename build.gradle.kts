@@ -17,9 +17,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
-    }
 }
 
 dependencies {
@@ -33,7 +30,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.postgresql:r2dbc-postgresql:1.0.2.RELEASE")
 
-    implementation("io.github.aleh-zhloba:postgresql-messaging:0.5.0-SNAPSHOT")
+    implementation("io.github.aleh-zhloba:postgresql-messaging:0.5.0")
 
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 
