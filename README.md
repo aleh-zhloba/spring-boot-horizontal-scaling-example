@@ -13,18 +13,32 @@ Hopsify (like Shopify but for beer 🍻) is a young ambitious startup aims to co
 Recently company introduced a new service for tap rooms and pubs to deliver announcements for their customers.
 
 The service consist of 3 main parts:
-1. REST API for read, create and delete venue announcements
-2. Scheduled task for email newsletter
-3. WebSocket API for broadcasting a "Cheers" message to the venue attenders
+* REST API for read, create and delete venue announcements
+* WebSocket API for broadcasting a "Cheers" message to the venue attenders
+* Scheduled task for email newsletter
 
-## Tests
+## Testing
+
+To test multi-instance environment the application packed into a docker container, and three containers launch before testing starts:
+* PostgreSQL container
+* 2 application containers
+
+### Tests
+
+#### Cache synchronisation
+Firstly this test ensures that caching database data is enabled for the application instances, secondly it verifies that cache eviction on one instance leads to eviction on the others.
+
+#### WebSockets
+
+This test makes two WebSocket connections: one connection for the first instance, another for the second instance. Using second connection a client broadcasts a message, and the test verifies that the first connection receives this message.
+
+#### Scheduled task
+
+Highly frequent scheduled tasks from both instances trying to scan database for not processed email addresses and to send them emails respectively. The test ensures that no email address processed more than once and each address received exactly one email.
+
+### Run the tests
+
 To run all tests use the command below:
 ```
 ./gradlew test
 ```
-
-### Cache synchronisation
-
-### WebSockets
-
-### Scheduled task
