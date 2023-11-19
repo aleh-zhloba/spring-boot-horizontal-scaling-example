@@ -3,7 +3,7 @@
 [![Kotlin](https://img.shields.io/badge/kotlin-1.9.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
 
 ## Challenge
-Horizontal scaling is a method of increasing the capacity of a system by adding more application instances. This process is not so trivial as it requires from your service to be either **stateless** or to have some sort of state synchronization mechanism.
+Horizontal scaling is a method of increasing the capacity of a system by adding more application instances. This process may be challenging as it requires your service to be either **stateless** or to have some form of state synchronization mechanism.
 
 The goal of this repository is to show an example of ready-for-scaling-out **stateful** Spring Boot application, synchronizing updates between instances using PostgreSQL data store and embedded messaging system.
 
