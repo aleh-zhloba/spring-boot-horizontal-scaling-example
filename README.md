@@ -19,7 +19,7 @@ The service consist of 3 main parts:
 
 ## Testing
 
-To test multi-instance environment the application packed into a docker container, and three containers launch before testing starts:
+To test multi-instance environment the application packed into a docker container, and three containers launched before testing starts:
 * PostgreSQL container
 * 2 application containers
 
