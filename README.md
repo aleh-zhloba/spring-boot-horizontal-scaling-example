@@ -15,7 +15,7 @@ Recently company introduced a new service for tap rooms and pubs to deliver anno
 The service consist of 3 main parts:
 * REST API for read, create and delete venue announcements
 * WebSocket API for broadcasting a "Cheers" message to the venue attenders
-* Scheduled task for email newsletter
+* Scheduled task for a daliy email newsletter
 
 ## Testing
 
