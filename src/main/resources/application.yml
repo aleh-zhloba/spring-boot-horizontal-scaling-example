@@ -18,6 +18,9 @@ spring:
   messages:
     encoding: UTF-8
     locale: en
+  threads:
+    virtual:
+      enabled: true
 
 tasks:
   subscription.newsletter:

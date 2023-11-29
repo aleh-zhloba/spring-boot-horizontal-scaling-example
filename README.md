@@ -1,5 +1,5 @@
 # Ready-for-scaling-out Spring Boot application example
-![Maven Central](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot?versionSuffix=3.1.5&label=spring%20boot&color=green)
+![Maven Central](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot?versionSuffix=3.2.0&label=spring%20boot&color=green)
 [![Kotlin](https://img.shields.io/badge/kotlin-1.9.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
 
 ## About

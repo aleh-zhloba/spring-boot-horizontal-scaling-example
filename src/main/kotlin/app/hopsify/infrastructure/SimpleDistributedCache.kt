@@ -7,26 +7,26 @@ import io.github.azhloba.postgresql.messaging.spring.PostgresMessagingTemplate
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.cache.Cache
 import org.springframework.cache.CacheManager
-import app.hopsify.infrastructure.DistributedCacheEventBus.Companion.CACHE_CHANNEL
-import java.lang.RuntimeException
+import app.hopsify.infrastructure.SimpleDistributedCache.Companion.CACHE_CHANNEL
+import reactor.core.scheduler.Schedulers
 
 class SimpleDistributedCacheManager(
-    messagingTemplate: PostgresMessagingTemplate,
-    private val underlining: CacheManager
-) : CacheManager by underlining {
+    private val messagingTemplate: PostgresMessagingTemplate,
+    private val underlying: CacheManager
+) : CacheManager by underlying {
     private val logger = KotlinLogging.logger {}
 
-    private val cacheEventBus = DistributedCacheEventBus(messagingTemplate, CACHE_CHANNEL)
-
     override fun getCache(name: String): Cache? =
-        underlining.getCache(name)?.let { cache -> SimpleDistributedCache(cache, cacheEventBus) }
+        underlying.getCache(name)?.let { cache ->
+            SimpleDistributedCache(messagingTemplate, cache)
+        }
 
     @PostgresMessageListener(value = [CACHE_CHANNEL], skipLocal = true)
     fun handleNotification(notification: CacheNotification) {
         try {
-            logger.info { "Received cache notification: $notification" }
+            logger.debug { "Received cache notification: $notification" }
 
-            underlining.getCache(notification.cacheName)?.let { cache ->
+            underlying.getCache(notification.cacheName)?.let { cache ->
                 when (notification) {
                     is CacheNotification.Clear -> cache.clear()
                     is CacheNotification.Evict -> cache.evict(notification.key)
@@ -39,56 +39,34 @@ class SimpleDistributedCacheManager(
 }
 
 class SimpleDistributedCache(
-    private val underlining: Cache,
-    private val cacheEventBus: DistributedCacheEventBus
-) : Cache by underlining {
-    override fun evict(key: Any) =
-        underlining.evict(key).also {
-            cacheEventBus.sendEvict(name, key)
-        }
-
-    override fun clear() =
-        underlining.clear().also {
-            cacheEventBus.sendClear(name)
-        }
-}
-
-class DistributedCacheEventBus(
     private val messagingTemplate: PostgresMessagingTemplate,
-    private val cacheChannel: String
-) {
+    private val underlying: Cache
+) : Cache by underlying {
     companion object {
         const val CACHE_CHANNEL = "cache"
     }
 
-    fun sendEvict(
-        cacheName: String,
-        key: Any
-    ) {
-        val notification = CacheNotification.Evict(
-            cacheName = cacheName,
-            key = key
-        )
-        try {
-            messagingTemplate.convertAndSend(cacheChannel, notification)
-        } catch (e: Exception) {
-            throw CacheSynchronizationException(notification, e)
+    override fun evict(key: Any) =
+        underlying.evict(key).also {
+            // broadcast cache evict message after underlying local cache eviction
+            messagingTemplate.convertAndSend(
+                CACHE_CHANNEL,
+                CacheNotification.Evict(
+                    cacheName = name,
+                    key = key
+                )
+            )
         }
-    }
 
-    fun sendClear(cacheName: String) {
-        val notification = CacheNotification.Clear(cacheName = cacheName)
-
-        try {
-            messagingTemplate.convertAndSend(cacheChannel, notification)
-        } catch (e: Exception) {
-            throw CacheSynchronizationException(notification, e)
+    override fun clear() =
+        underlying.clear().also {
+            // broadcast cache clear message after underlying local cache cleared
+            messagingTemplate.convertAndSend(
+                CACHE_CHANNEL,
+                CacheNotification.Clear(cacheName = name)
+            )
         }
-    }
 }
-
-class CacheSynchronizationException(notification: CacheNotification, cause: Throwable) :
-    RuntimeException("Sending cache notification $notification exception", cause)
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
