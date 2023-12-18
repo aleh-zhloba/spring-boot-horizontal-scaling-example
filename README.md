@@ -8,7 +8,8 @@ Horizontal scaling is a method of increasing the capacity of a system by adding 
 The goal of this repository is to show an example of ready-for-scaling-out **stateful** Spring Boot application, synchronizing updates between instances using PostgreSQL data store and embedded messaging system.
 
 ## Related articles
-[Spring Boot Scaling Strategies: Cache](https://medium.com/gitconnected/spring-boot-scaling-strategies-cache-159c53cf4060)
+1. [Spring Boot Scaling Strategies: Cache](https://medium.com/gitconnected/spring-boot-scaling-strategies-cache-159c53cf4060)
+2. [Spring Boot Scaling Strategies: WebSockets](https://medium.com/gitconnected/spring-boot-scaling-strategies-websockets-f7acf7ef45e5)
 
 ## Plot
 Hopsify (like Shopify but for beer 🍻) is a young ambitious startup aims to conquer the world with their innovative beer-commerce solutions.
