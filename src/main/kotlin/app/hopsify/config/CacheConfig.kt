@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.concurrent.TimeUnit
 
-
 @Configuration
 class CacheConfig {
     @Bean
@@ -20,5 +19,4 @@ class CacheConfig {
                 setCaffeine(Caffeine.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES))
             }
         )
-
 }

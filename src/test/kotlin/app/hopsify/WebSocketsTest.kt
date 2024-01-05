@@ -1,8 +1,8 @@
 package app.hopsify
 
+import app.hopsify.support.AbstractMultiInstanceTest
 import org.junit.jupiter.api.Test
 import reactor.test.StepVerifier
-import app.hopsify.support.AbstractMultiInstanceTest
 import java.time.Duration
 import java.util.UUID
 

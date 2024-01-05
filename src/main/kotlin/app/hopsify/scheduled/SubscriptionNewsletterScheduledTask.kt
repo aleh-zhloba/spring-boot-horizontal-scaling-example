@@ -1,11 +1,11 @@
 package app.hopsify.scheduled
 
+import app.hopsify.service.AnnouncementService
+import app.hopsify.service.SubscriptionService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import app.hopsify.service.AnnouncementService
-import app.hopsify.service.SubscriptionService
 
 @Component
 class SubscriptionNewsletterScheduledTask(

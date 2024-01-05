@@ -1,5 +1,6 @@
 package app.hopsify.infrastructure
 
+import app.hopsify.infrastructure.SimpleDistributedCache.Companion.CACHE_CHANNEL
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.github.azhloba.postgresql.messaging.spring.PostgresMessageListener
@@ -7,8 +8,6 @@ import io.github.azhloba.postgresql.messaging.spring.PostgresMessagingTemplate
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.cache.Cache
 import org.springframework.cache.CacheManager
-import app.hopsify.infrastructure.SimpleDistributedCache.Companion.CACHE_CHANNEL
-import reactor.core.scheduler.Schedulers
 
 class SimpleDistributedCacheManager(
     private val messagingTemplate: PostgresMessagingTemplate,

@@ -1,13 +1,13 @@
 package app.hopsify.service
 
+import app.hopsify.model.Announcement
+import app.hopsify.model.AnnouncementSubscription
+import app.hopsify.repository.SubscriptionRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
-import app.hopsify.model.Announcement
-import app.hopsify.model.AnnouncementSubscription
-import app.hopsify.repository.SubscriptionRepository
 import java.time.Instant
 import java.util.UUID
 

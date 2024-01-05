@@ -12,5 +12,5 @@ class AnnouncementSubscription(
     val createdAt: Instant,
     val processedAt: Instant,
     val email: String,
-    val venueId: String,
+    val venueId: String
 )
